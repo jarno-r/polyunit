@@ -1,2 +1,10 @@
 # polyunit
-Polymorphic Unit type for Scala &amp; Cats
+An effectful Unit type for Scala & Cats.
+
+```scala
+def doSomething() : PolyUnit[Int] = {
+  // Do stuff
+  <<>>
+}
+```
+
