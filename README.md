@@ -8,6 +8,8 @@ in that it only contains one value, `<<>>` ,which is analogous to the builtin `(
 many creative ways.
 
 ```scala
+import cats._
+import cats.implicits._
 import polyunit._
 import polyunit.implicits._
 
