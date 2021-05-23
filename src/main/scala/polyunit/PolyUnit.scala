@@ -28,7 +28,7 @@ object PolyUnit {
     }
 
     /*
-     * What the function does, but but with tail recursion:
+     * What the function does, but with tail recursion:
      * flatMap(f(a)) {
      *   case Left(a) => tailRecM(a)(f)
      *   case Right(b) => pure(b)
