@@ -11,7 +11,7 @@ object Hello {
     val p: PolyUnit[Int] = ()
     val q: PolyUnit[String] = <<>>
 
-    p.flatMap(a => <<>>)
+    p.flatMap(a => (a+1).unit)
 
     val l = List(1, 2, 3, 4, 5).map(i => PolyUnit(i))
     val t = l.traverse(identity)

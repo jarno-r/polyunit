@@ -24,4 +24,3 @@ def loop() : PolyUnit[List[Int]] = {
   } yield i++j
 }
 ```
-
