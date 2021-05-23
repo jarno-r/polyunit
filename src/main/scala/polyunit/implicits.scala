@@ -7,8 +7,5 @@ object implicits {
     def unit : PolyUnit[A] = PolyUnit(a)
   }
 
-  implicit def convertUnitToPolyUnit[A](u : Unit) : PolyUnit[A] = {
-    val _ = u
-    <<>>
-  }
+  implicit def convertUnitToPolyUnit[A](u : Unit) : PolyUnit[A] = <<>>
 }
