@@ -22,9 +22,9 @@ object Hello {
     val _: List[PolyUnit[Int]] = List(1.unit, 2.unit, 3.unit)
   }
 
-  // Convert 1 and 2 to PolyUnit[int] and parMapN over them to get PolyUnit[Double].
-  def computeRatio(): PolyUnit[Double] = {
-    (1.unit, 2.unit).parMapN((a, b) => a.toDouble / b)
+  // Convert 1f and 2 to PolyUnit[Float] and PolyUnit[int] and parMapN over them to get PolyUnit[Float].
+  def computeRatio(): PolyUnit[Float] = {
+    (1f.unit, 2.unit).parMapN((a, b) => a / b)
   }
 
   // Use for comprehension on PolyUnit.
