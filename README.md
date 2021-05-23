@@ -18,7 +18,7 @@ def computeRatio(): PolyUnit[Double] = {
   (1.unit, 2.unit).parMapN((a, b) => a.toDouble / b)
 }
 
-// Use for comprehension on PolyUnit.
+// Use for-comprehension on PolyUnit.
 def loop() : PolyUnit[List[Int]] = {
   for {
     i <- List(1, 2, 3).traverse(i => PolyUnit(i))
