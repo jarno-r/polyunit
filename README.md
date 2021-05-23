@@ -4,7 +4,7 @@ An effectful Unit type for Scala & Cats.
 The polymorphic `PolyUnit[A]` is a type similar to the builtin `Unit`
 in that it only contains one value, `<<>>` ,which is analogous to the builtin `()`.
 
-`PolyUnit[_]` is a Cats `Monad`, `Monoid` and `Parallel` so it can be used in
+`PolyUnit[_]` is a Cats `Monad`, `Monoid` and `Parallel`. It can be used in
 many creative ways.
 
 ```scala
