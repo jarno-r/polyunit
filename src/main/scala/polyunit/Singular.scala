@@ -2,16 +2,20 @@ package polyunit
 
 import cats.arrow.FunctionK.lift
 import cats.implicits._
-import cats.{Applicative, Monad, Parallel, Semigroup, ~>}
+import cats.{Applicative, Eval, Monad, Parallel, Semigroup, Traverse, ~>}
 
 import scala.annotation.tailrec
 
 /**
  * A polymorphic non-empty single item container.
  */
-sealed trait Singular[+A] {}
+sealed trait Singular[+A] {
+  def get() : A
+}
 
-final case class Value[+A](value : A) extends Singular[A]
+final case class Value[+A](value: A) extends Singular[A] {
+  override def get(): A = value
+}
 
 object Singular {
 
@@ -55,5 +59,18 @@ object Singular {
     override def sequential: F ~> Singular = lift(convert)
 
     override def parallel: Singular ~> F = lift(convert)
+  }
+
+  implicit object singularTraverse extends Traverse[Singular] {
+    type F[A] = Singular[A]
+
+    override def traverse[G[_] : Applicative, A, B](fa: F[A])(f: A => G[B]): G[F[B]] =
+      f(fa.get).map(a => Value(a))
+
+    override def foldLeft[A, B](fa: F[A], b: B)(f: (B, A) => B): B =
+      f(b, fa.get)
+
+    override def foldRight[A, B](fa: F[A], lb: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
+      f(fa.get, lb)
   }
 }
