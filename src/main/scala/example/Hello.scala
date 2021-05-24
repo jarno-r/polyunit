@@ -23,8 +23,8 @@ object Hello {
 
     val s = 1.singular
     println(s)
-    // Ops missing.
-    //println(s.map(i => i+1))
+    // conflict due to Monad & Traverse
+    // println(s.map(i => i+1))
   }
 
   // Convert 1f and 2 to PolyUnit[Float] and PolyUnit[int] and parMapN over them to get PolyUnit[Float].
