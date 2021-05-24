@@ -20,6 +20,11 @@ object Hello {
     println((PolyUnit(1), PolyUnit(2)).mapN(_ |+| _))
 
     val _: List[PolyUnit[Int]] = List(1.unit, 2.unit, 3.unit)
+
+    val s = 1.singular
+    println(s)
+    // Ops missing.
+    //println(s.map(i => i+1))
   }
 
   // Convert 1f and 2 to PolyUnit[Float] and PolyUnit[int] and parMapN over them to get PolyUnit[Float].

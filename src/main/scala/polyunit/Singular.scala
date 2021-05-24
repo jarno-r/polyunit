@@ -13,24 +13,24 @@ sealed trait Singular[+A] {
   def get() : A
 }
 
-final case class Value[+A](value: A) extends Singular[A] {
+final case class Single[+A](value: A) extends Singular[A] {
   override def get(): A = value
 }
 
 object Singular {
 
-  def apply[A](a: A): Singular[A] = Value(a)
+  def apply[A](a: A): Singular[A] = Single(a)
 
   implicit def semigroupSingular[A: Semigroup]: Semigroup[Singular[A]] =
     (x: Singular[A], y: Singular[A]) => (x, y) match {
-      case (Value(a), Value(b)) => Value(a |+| b)
+      case (Single(a), Single(b)) => Single(a |+| b)
     }
 
   implicit object monadSingular extends Monad[Singular] {
     override def pure[A](x: A): Singular[A] = Singular(x)
 
     override def flatMap[A, B](fa: Singular[A])(f: A => Singular[B]): Singular[B] = fa match {
-      case Value(a) => f(a)
+      case Single(a) => f(a)
     }
 
     /*
@@ -42,8 +42,8 @@ object Singular {
      */
     @tailrec
     override def tailRecM[A, B](a: A)(f: A => Singular[Either[A, B]]): Singular[B] = f(a) match {
-      case Value(Left(l)) => tailRecM(l)(f)
-      case Value(Right(r)) => Value(r)
+      case Single(Left(l)) => tailRecM(l)(f)
+      case Single(Right(r)) => Single(r)
     }
   }
 
@@ -65,7 +65,7 @@ object Singular {
     type F[A] = Singular[A]
 
     override def traverse[G[_] : Applicative, A, B](fa: F[A])(f: A => G[B]): G[F[B]] =
-      f(fa.get).map(a => Value(a))
+      f(fa.get).map(a => Single(a))
 
     override def foldLeft[A, B](fa: F[A], b: B)(f: (B, A) => B): B =
       f(b, fa.get)
