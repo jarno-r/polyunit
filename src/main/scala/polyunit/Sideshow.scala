@@ -1,7 +1,7 @@
 package polyunit
 
 import cats.arrow.FunctionK.lift
-import cats.{Applicative, Monad, Parallel, ~>}
+import cats.{Applicative, Monad, Parallel, Semigroup, ~>}
 
 sealed trait Sideshow[+A] {}
 final case class Bob[A](target: String) extends Sideshow[A]
@@ -47,13 +47,17 @@ object Sideshow {
 }
 
 object Clown {
+  // Semigroup string operations.
+  private val empty : String =""
+  private val combine : (String, String) => String = (a,b) => a + (if (a.isEmpty || b.isEmpty) "" else ", ") + b
+
   def apply[A](a : A): Clown[A] = applicativeClown.pure(a)
 
   implicit object applicativeClown extends Applicative[Clown] {
-    override def pure[A](x: A): Clown[A] = Krusty("")
+    override def pure[A](x: A): Clown[A] = Krusty(empty)
 
     override def ap[A, B](ff: Clown[A => B])(fa: Clown[A]): Clown[B] = (ff, fa) match {
-      case (Krusty(a), Krusty(b)) => Krusty(a + (if (a.isEmpty || b.isEmpty) "" else ", ") + b)
+      case (Krusty(a), Krusty(b)) => Krusty(combine(a,b))
     }
   }
 }
