@@ -59,6 +59,5 @@ object Hello {
     println(List(bob1, bob2).sequence)
     println(List(bob1, bob2).parSequence)
     println(k1.product(k2))
-    println((Krusty("L"):Clown[Int => (Int => Int)]).ap(k1).ap(k2))
   }
 }

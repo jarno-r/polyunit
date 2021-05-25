@@ -74,4 +74,3 @@ object Singular {
       f(fa.get, lb)
   }
 }
-

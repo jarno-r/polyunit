@@ -50,10 +50,10 @@ object Clown {
   def apply[A](a : A): Clown[A] = applicativeClown.pure(a)
 
   implicit object applicativeClown extends Applicative[Clown] {
-    override def pure[A](x: A): Clown[A] = Krusty("Lisa")
+    override def pure[A](x: A): Clown[A] = Krusty("")
 
     override def ap[A, B](ff: Clown[A => B])(fa: Clown[A]): Clown[B] = (ff, fa) match {
-      case (Krusty(a), Krusty(b)) => Krusty(a + ", " + b)
+      case (Krusty(a), Krusty(b)) => Krusty(a + (if (a.isEmpty || b.isEmpty) "" else ", ") + b)
     }
   }
 }
