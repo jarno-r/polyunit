@@ -13,7 +13,7 @@ object Sideshow {
   def apply[A](a : A): Sideshow[A] = monadSideshow.pure(a)
 
   implicit object monadSideshow extends Monad[Sideshow] {
-    override def pure[A](x: A): Sideshow[A] = Bob("Bart")
+    override def pure[A](x: A): Sideshow[A] = Bob("")
 
     // product(fa,fb) = fa.flatMap(a => fb.map(b => (a,b))
     override def flatMap[A, B](fa: Sideshow[A])(f: A => Sideshow[B]): Sideshow[B] = fa match {
