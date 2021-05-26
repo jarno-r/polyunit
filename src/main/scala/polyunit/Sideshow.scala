@@ -1,7 +1,7 @@
 package polyunit
 
 import cats.arrow.FunctionK.lift
-import cats.{Applicative, Monad, Parallel, Semigroup, ~>}
+import cats.{Applicative, Monad, Parallel, ~>}
 
 sealed trait Sideshow[+A] {}
 final case class Bob[A](target: String) extends Sideshow[A]
@@ -13,7 +13,7 @@ object Sideshow {
   def apply[A](a : A): Sideshow[A] = monadSideshow.pure(a)
 
   implicit object monadSideshow extends Monad[Sideshow] {
-    override def pure[A](x: A): Sideshow[A] = Bob("")
+    override def pure[A](x: A): Sideshow[A] = Bob("Bart")
 
     // product(fa,fb) = fa.flatMap(a => fb.map(b => (a,b))
     override def flatMap[A, B](fa: Sideshow[A])(f: A => Sideshow[B]): Sideshow[B] = fa match {
@@ -21,9 +21,8 @@ object Sideshow {
     }
 
     override def tailRecM[A, B](a: A)(f: A => Sideshow[Either[A, B]]): Sideshow[B] =
-      flatMap(f(a)) {
-        case Left(a) => tailRecM(a)(f)
-        case Right(b) => pure(b)
+      f(a) match {
+        case Bob(a) => Bob(a)
       }
   }
 
